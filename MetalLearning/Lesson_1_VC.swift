@@ -33,5 +33,27 @@ class Lesson_1_VC: UIViewController {
         
         // Подключение GPU к слою Metal
         metalView.device = device
+        
+        // Слой будет обращаться к делегату, когда нужно будет обновить контент
+        metalView.delegate = self
+        
+        // По-умолчанию у MTKView это значение false, из-за чего метод draw
+        // вызывается ~60 раз в секунду
+        // Если установить значение в true, то для обновления слоя нужно будет
+        // вручную вызывать метод setNeedsDisplay()
+        // metalView.enableSetNeedsDisplay = true
+    }
+}
+
+extension Lesson_1_VC: MTKViewDelegate {
+
+    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
+        // Логи об изменении размера View
+        print("mtkView drawableSizeWillChange = \(size)")
+    }
+    
+    func draw(in view: MTKView) {
+        // Логи вызова метода draw. Можно увидеть как часто происходит обновление
+        print("draw = \(arc4random())")
     }
 }
