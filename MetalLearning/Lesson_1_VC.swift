@@ -7,11 +7,31 @@
 //
 
 import UIKit
+import Metal
+import MetalKit
 
 class Lesson_1_VC: UIViewController {
+    
+    /// GPU
+    var device: MTLDevice!
+    
+    /// Вспомогательный класс из MetalKit. Упрощает интеграцию CAMetalLayer в UIKit
+    /// Можно и без него обойтись, но тогда нужно будет больше кода
+    var metalView: MTKView {
+        view as! MTKView
+    }
+    
+    override func loadView() {
+        view = MTKView()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemCyan
+        
+        // Подключение GPU
+        device = MTLCreateSystemDefaultDevice()
+        
+        // Подключение GPU к слою Metal
+        metalView.device = device
     }
 }
