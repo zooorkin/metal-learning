@@ -13,6 +13,7 @@
 		88C573AE293263A30089A095 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88C573AD293263A30089A095 /* Assets.xcassets */; };
 		88C573B1293263A30089A095 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88C573AF293263A30089A095 /* LaunchScreen.storyboard */; };
 		88C573BB293265F70089A095 /* EntryPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C573BA293265F70089A095 /* EntryPoint.swift */; };
+		88C573BD29327E960089A095 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 88C573BC29327E960089A095 /* Shaders.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		88C573B0293263A30089A095 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		88C573B2293263A30089A095 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		88C573BA293265F70089A095 /* EntryPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryPoint.swift; sourceTree = "<group>"; };
+		88C573BC29327E960089A095 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				88C573A8293263A30089A095 /* Lesson_1_VC.swift */,
+				88C573BC29327E960089A095 /* Shaders.metal */,
 			);
 			name = Lesson1;
 			sourceTree = "<group>";
@@ -157,6 +160,7 @@
 				88C573A5293263A30089A095 /* AppDelegate.swift in Sources */,
 				88C573A7293263A30089A095 /* SceneDelegate.swift in Sources */,
 				88C573BB293265F70089A095 /* EntryPoint.swift in Sources */,
+				88C573BD29327E960089A095 /* Shaders.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
