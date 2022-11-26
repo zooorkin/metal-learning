@@ -33,8 +33,20 @@ class Lesson_1_VC: UIViewController {
                                -1.0, -1.0, 0.0,
                                1.0, -1.0, 0.0]
     
+    /// Массив с вершинами (хранение вершин для CPU)
+    /// - [0] Верхняя вершина (x, y, z)
+    /// - [1] Нижняя левая (x, y, z)
+    /// - [2] Нижняя правая (x, y, z)
+    /// Если первое значение заменить на 0.5, то верх треугольника сдвинется вправо
+    let vertexData2: [Float] = [0.5, 1.0, 0.0,
+                               -1.0, -1.0, 0.0,
+                               1.0, -1.0, 0.0]
+    
     /// Буфер с вершинами (хранение вершин для GPU)
     var vertexBuffer: MTLBuffer!
+
+    /// Буфер с вершинами (хранение вершин для GPU)
+    var vertexBuffer2: MTLBuffer!
 
     /// Вспомогательный класс из MetalKit. Упрощает интеграцию CAMetalLayer в UIKit
     /// Можно и без него обойтись, но тогда нужно будет больше кода
@@ -89,6 +101,9 @@ class Lesson_1_VC: UIViewController {
         // Создание буфера для GPU размера vertexBufferSize + помещение данных из CPU
         vertexBuffer = device.makeBuffer(bytes: vertexData, length: vertexBufferSize, options: [])
         
+        // Создание буфера для второго треугольника
+        vertexBuffer2 = device.makeBuffer(bytes: vertexData2, length: vertexBufferSize, options: [])
+
         // Создание очереди комманд для текущего GPU
         // Нужно создавать 1 раз до начала цикла рендеринга
         commandQueue = device.makeCommandQueue()
@@ -112,9 +127,14 @@ extension Lesson_1_VC: MTKViewDelegate {
         let drawable = metalView.currentDrawable!
         let renderPassDescriptor = MTLRenderPassDescriptor()
         renderPassDescriptor.colorAttachments[0].texture = drawable.texture
-        renderPassDescriptor.colorAttachments[0].loadAction = .clear
+        
+        // MTLLoadAction: действие, которое будет выполненое прикриплением а начале рендеринга для Render Command Encoder
+        // - load: GPU сохраняет текущее содержание перед началом рендеринга
+        // - clear: GPU записывает значение clearColor в каждый пиксель перед началом рендеринга
+        renderPassDescriptor.colorAttachments[0].loadAction = .load
         // Новый начальный цвет (зелёный)
-        let clearColor = MTLClearColor(red: 0.0, green: 0.4, blue: 0.2, alpha: 1.0)
+        // Используется, если loadAction == .clear
+        let clearColor = MTLClearColor(red: 0.0, green: 0.4, blue: 0.2, alpha: 0)
         renderPassDescriptor.colorAttachments[0].clearColor = clearColor
 
         // Создание комманды, которая будет выполняться на GPU
@@ -130,6 +150,16 @@ extension Lesson_1_VC: MTKViewDelegate {
         renderEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 3)
         renderEncoder.endEncoding()
         
+        // Отрисовка треугольника 2
+        let renderEncoder2 = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
+        // Пайплайн, на котором будет рендериться encoder
+        renderEncoder2.setRenderPipelineState(pipelineState)
+        // Данные которые будет обрабатываться
+        renderEncoder2.setVertexBuffer(vertexBuffer2, offset: 0, index: 0)
+        // Метод (здесь, рисование треугольника)
+        renderEncoder2.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 3)
+        renderEncoder2.endEncoding()
+
         commandBuffer.present(metalView.currentDrawable!)
         
         // Отправить для выполнения на GPU
