@@ -25,13 +25,13 @@ class Lesson_1_VC: UIViewController {
     var pipelineState: MTLRenderPipelineState!
     
     /// Массив с вершинами (хранение вершин для CPU)
-    /// - [0] Верхняя вершина (x, y, z)
-    /// - [1] Нижняя левая (x, y, z)
-    /// - [2] Нижняя правая (x, y, z)
+    /// - [0] Верхняя вершина (x, y + r, g, b, a) – красная
+    /// - [1] Нижняя левая (x, y + r, g, b, a) – зелёная
+    /// - [2] Нижняя правая (x, y + r, g, b, a) – синяя
     /// Если первое значение заменить на 0.5, то верх треугольника сдвинется вправо
-    let vertexData: [Float] = [0.0, 1.0, 0.0,
-                               -1.0, -1.0, 0.0,
-                               1.0, -1.0, 0.0]
+    let vertexData: [VertexInput] = [VertexInput(position: [0, 1], color: [1, 0, 0, 1]),
+                                     VertexInput(position: [-1, -1], color: [0, 1, 0, 1]),
+                                     VertexInput(position: [1, -1], color: [0, 0, 1, 1])]
     
     /// Буфер с вершинами (хранение вершин для GPU)
     var vertexBuffer: MTLBuffer!
@@ -66,8 +66,8 @@ class Lesson_1_VC: UIViewController {
         
         // Подключение библиотеки шейдеров
         library = device.makeDefaultLibrary()!
-        let vertexFunction = library.makeFunction(name: "basic_vertex")
-        let fragmentFunction = library.makeFunction(name: "basic_fragment")
+        let vertexFunction = library.makeFunction(name: "vertex_shader")
+        let fragmentFunction = library.makeFunction(name: "fragment_shader")
 
         // Модель пайплайна для рендеринга
         // [Шаг 1] Обработка вершин вершинным шейдером
@@ -85,7 +85,8 @@ class Lesson_1_VC: UIViewController {
         pipelineState = try! device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
         
         // Вычисление размера памяти, необходимого для хранения буфера вершин
-        let vertexBufferSize = vertexData.count * MemoryLayout<SIMD3<Float>>.size
+        let vertexBufferSize = vertexData.count * MemoryLayout<VertexInput>.size
+
         // Создание буфера для GPU размера vertexBufferSize + помещение данных из CPU
         vertexBuffer = device.makeBuffer(bytes: vertexData, length: vertexBufferSize, options: [])
         
