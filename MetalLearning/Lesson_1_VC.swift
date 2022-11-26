@@ -15,6 +15,9 @@ class Lesson_1_VC: UIViewController {
     /// GPU
     var device: MTLDevice!
     
+    /// Очередь комманд на GPU
+    var commandQueue: MTLCommandQueue!
+    
     /// Вспомогательный класс из MetalKit. Упрощает интеграцию CAMetalLayer в UIKit
     /// Можно и без него обойтись, но тогда нужно будет больше кода
     var metalView: MTKView {
@@ -42,6 +45,13 @@ class Lesson_1_VC: UIViewController {
         // Если установить значение в true, то для обновления слоя нужно будет
         // вручную вызывать метод setNeedsDisplay()
         // metalView.enableSetNeedsDisplay = true
+        
+        // Создание очереди комманд для текущего GPU
+        // Нужно создавать 1 раз до начала цикла рендеринга
+        commandQueue = device.makeCommandQueue()
+        
+        // Начальный цвет (без кода с commandBuffer не установится)
+        metalView.clearColor = MTLClearColor(red: 1, green: 0, blue: 0, alpha: 1)
     }
 }
 
@@ -55,5 +65,15 @@ extension Lesson_1_VC: MTKViewDelegate {
     func draw(in view: MTKView) {
         // Логи вызова метода draw. Можно увидеть как часто происходит обновление
         print("draw = \(arc4random())")
+
+        // Создание комманды, которая будет выполняться на GPU
+        let commandBuffer = commandQueue.makeCommandBuffer()!
+        
+        let commandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: metalView.currentRenderPassDescriptor!)
+        commandEncoder?.endEncoding()
+        commandBuffer.present(metalView.currentDrawable!)
+        
+        // Отправить для выполнения на GPU
+        commandBuffer.commit()
     }
 }
