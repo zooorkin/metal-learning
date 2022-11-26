@@ -24,14 +24,11 @@ class Lesson_1_VC: UIViewController {
     /// Pipeline для рендеринга
     var pipelineState: MTLRenderPipelineState!
     
-    /// Массив с вершинами (хранение вершин для CPU)
-    /// - [0] Верхняя вершина (x, y + r, g, b, a) – красная
-    /// - [1] Нижняя левая (x, y + r, g, b, a) – зелёная
-    /// - [2] Нижняя правая (x, y + r, g, b, a) – синяя
-    /// Если первое значение заменить на 0.5, то верх треугольника сдвинется вправо
-    let vertexData: [VertexInput] = [VertexInput(position: [0, 1], color: [1, 0, 0, 1]),
-                                     VertexInput(position: [-1, -1], color: [0, 1, 0, 1]),
-                                     VertexInput(position: [1, -1], color: [0, 0, 1, 1])]
+    /// Массив с вершинами прямоугольника (хранение вершин для CPU)
+    let vertexData: [VertexInput] = [VertexInput(position: [-1, -1], color: [1, 1, 1, 1]),
+                                     VertexInput(position: [1, -1], color: [1, 0, 0, 1]),
+                                     VertexInput(position: [-1, 1], color: [0, 0, 1, 1]),
+                                     VertexInput(position: [1, 1], color: [0, 1, 0, 1])]
     
     /// Буфер с вершинами (хранение вершин для GPU)
     var vertexBuffer: MTLBuffer!
@@ -132,7 +129,7 @@ extension Lesson_1_VC: MTKViewDelegate {
         // Данные которые будет обрабатываться
         renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         // Метод (здесь, рисование треугольника)
-        renderEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 3)
+        renderEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: vertexData.count)
         renderEncoder.endEncoding()
         
         commandBuffer.present(metalView.currentDrawable!)
