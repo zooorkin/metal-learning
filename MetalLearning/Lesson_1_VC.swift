@@ -1,5 +1,5 @@
 //
-// ViewController.swift
+// Lesson_1_VC.swift
 // MetalLearning
 //
 // Created by zooorkin on 26.11.2022
@@ -8,13 +8,10 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class Lesson_1_VC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .systemCyan
     }
-
-
 }
-
