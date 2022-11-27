@@ -123,14 +123,17 @@ extension Lesson_1_VC: MTKViewDelegate {
         let commandBuffer = commandQueue.makeCommandBuffer()!
         
         // Отрисовка треугольника
-        let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
-        // Пайплайн, на котором будет рендериться encoder
-        renderEncoder.setRenderPipelineState(pipelineState)
+
+        // Команды для GPU создаются не нарямую, а через объекты Command Encoder
+        let renderCommandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
+        // Пайплайн, на котором будут обрабатываться команды
+        renderCommandEncoder.setRenderPipelineState(pipelineState)
         // Данные которые будет обрабатываться
-        renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         // Метод (здесь, рисование треугольника)
-        renderEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: vertexData.count)
-        renderEncoder.endEncoding()
+        renderCommandEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: vertexData.count)
+        // Устанавливает, что генерация всех команд в буфер через этот Encoder завершена
+        renderCommandEncoder.endEncoding()
         
         commandBuffer.present(metalView.currentDrawable!)
         
