@@ -24,11 +24,8 @@ class Lesson_1_VC: UIViewController {
     /// Pipeline для рендеринга
     var pipelineState: MTLRenderPipelineState!
     
-    /// Массив с вершинами прямоугольника (хранение вершин для CPU)
-    let vertexData: [VertexInput] = [VertexInput(position: [-1024, -1024], color: [1, 1, 1, 1]),
-                                     VertexInput(position: [1024, -1024], color: [1, 0, 0, 1]),
-                                     VertexInput(position: [-1024, 1024], color: [0, 0, 1, 1]),
-                                     VertexInput(position: [1024, 1024], color: [0, 1, 0, 1])]
+    /// Массив с вершинами (хранение вершин для CPU)
+    var vertexData: [VertexInput] = []
     
     /// Буфер с вершинами (хранение вершин для GPU)
     var vertexBuffer: MTLBuffer!
@@ -48,6 +45,9 @@ class Lesson_1_VC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Если количество сегментов заменить на 6, то получится правильный шестиугольник
+        vertexData = circle(outerRadius: 1024, innerRadius: 768, segments: 126)
         
         // Подключение GPU
         device = MTLCreateSystemDefaultDevice()
@@ -154,5 +154,39 @@ extension Lesson_1_VC: MTKViewDelegate {
         
         // Отправить для выполнения на GPU
         commandBuffer.commit()
+    }
+    
+    /// Вершины кольца
+    /// - Parameters:
+    ///   - outerRadius: Длина внешнего радиуса
+    ///   - innerRadius: Длина внутреннего радиуса
+    ///   - segments: Количество сегментов при разбиении
+    /// - Returns: Вершины для построения кольца
+    private func circle(outerRadius: Float, innerRadius: Float, segments: Int) -> [VertexInput] {
+        
+        var verticies: [VertexInput] = []
+        let angle = 2 * Double.pi / Double(segments)
+
+        for index in 0 ..< segments + 1 {
+            // Текущий угол
+            let currentAngle = Float(angle * Double(index))
+            
+            // Внешняя точка
+            let outerLength = outerRadius
+            let outerVertex = VertexInput(position: vector_float2(
+                cos(currentAngle) * outerLength,
+                sin(currentAngle) * outerLength),
+                                     color: [1, 0, 0, 1])
+            verticies.append(outerVertex)
+            
+            // Внутренняя точка
+            let innerLength = innerRadius
+            let innerVertex = VertexInput(position: vector_float2(
+                cos(currentAngle) * innerLength,
+                sin(currentAngle) * innerLength),
+                                      color: [1, 1, 0, 1])
+            verticies.append(innerVertex)
+        }
+        return verticies
     }
 }
