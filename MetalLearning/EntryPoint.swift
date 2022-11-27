@@ -15,7 +15,7 @@ class EntryPoint {
     private init() { }
     
     func entryPoint() -> UIViewController {
-        createLesson2()
+        createLesson1()
     }
     
     // MARK: - Lessons
@@ -26,5 +26,10 @@ class EntryPoint {
     
     private func createLesson2() -> UIViewController {
         Lesson_2_VC()
+    }
+    
+    private func generateColors() -> UIViewController {
+        GenerateColors.generate()
+        return UIViewController()
     }
 }

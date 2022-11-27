@@ -176,7 +176,7 @@ extension Lesson_1_VC: MTKViewDelegate {
             let outerVertex = VertexInput(position: vector_float2(
                 cos(currentAngle) * outerLength,
                 sin(currentAngle) * outerLength),
-                                     color: [1, 0, 0, 1])
+                                     color: Colors.Palette1.paradisePink.metal)
             verticies.append(outerVertex)
             
             // Внутренняя точка
@@ -184,7 +184,7 @@ extension Lesson_1_VC: MTKViewDelegate {
             let innerVertex = VertexInput(position: vector_float2(
                 cos(currentAngle) * innerLength,
                 sin(currentAngle) * innerLength),
-                                      color: [1, 1, 0, 1])
+                                      color: Colors.Palette1.orangeYellowCrayola.metal)
             verticies.append(innerVertex)
         }
         return verticies

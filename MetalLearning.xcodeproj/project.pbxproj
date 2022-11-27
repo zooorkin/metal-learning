@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		88AC07322933BFEE00FFAF97 /* Lesson_2_VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AC07312933BFEE00FFAF97 /* Lesson_2_VC.swift */; };
 		88AC07342933C06000FFAF97 /* Add.metal in Sources */ = {isa = PBXBuildFile; fileRef = 88AC07332933C06000FFAF97 /* Add.metal */; };
+		88AC07372933CEC700FFAF97 /* UIColor+Metal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AC07362933CEC700FFAF97 /* UIColor+Metal.swift */; };
+		88AC07392933CFDB00FFAF97 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AC07382933CFDB00FFAF97 /* Colors.swift */; };
+		88AC073B2933E14100FFAF97 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AC073A2933E14100FFAF97 /* UIColor+Hex.swift */; };
+		88AC073D2933E17E00FFAF97 /* GenerateColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AC073C2933E17E00FFAF97 /* GenerateColors.swift */; };
+		88AC073F2933E1A000FFAF97 /* PaletteGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AC073E2933E1A000FFAF97 /* PaletteGenerator.swift */; };
+		88AC07412933E20300FFAF97 /* String+Case.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AC07402933E20300FFAF97 /* String+Case.swift */; };
 		88C573A5293263A30089A095 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C573A4293263A30089A095 /* AppDelegate.swift */; };
 		88C573A7293263A30089A095 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C573A6293263A30089A095 /* SceneDelegate.swift */; };
 		88C573A9293263A30089A095 /* Lesson_1_VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C573A8293263A30089A095 /* Lesson_1_VC.swift */; };
@@ -22,6 +28,12 @@
 /* Begin PBXFileReference section */
 		88AC07312933BFEE00FFAF97 /* Lesson_2_VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lesson_2_VC.swift; sourceTree = "<group>"; };
 		88AC07332933C06000FFAF97 /* Add.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Add.metal; sourceTree = "<group>"; };
+		88AC07362933CEC700FFAF97 /* UIColor+Metal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Metal.swift"; sourceTree = "<group>"; };
+		88AC07382933CFDB00FFAF97 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		88AC073A2933E14100FFAF97 /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
+		88AC073C2933E17E00FFAF97 /* GenerateColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateColors.swift; sourceTree = "<group>"; };
+		88AC073E2933E1A000FFAF97 /* PaletteGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteGenerator.swift; sourceTree = "<group>"; };
+		88AC07402933E20300FFAF97 /* String+Case.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Case.swift"; sourceTree = "<group>"; };
 		88C573A1293263A30089A095 /* MetalLearning.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalLearning.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88C573A4293263A30089A095 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		88C573A6293263A30089A095 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -56,6 +68,34 @@
 			name = Lesson2;
 			sourceTree = "<group>";
 		};
+		88AC07352933CEB600FFAF97 /* Utilites */ = {
+			isa = PBXGroup;
+			children = (
+				88AC07422933E21F00FFAF97 /* Helpers */,
+				88AC07362933CEC700FFAF97 /* UIColor+Metal.swift */,
+				88AC073A2933E14100FFAF97 /* UIColor+Hex.swift */,
+				88AC07402933E20300FFAF97 /* String+Case.swift */,
+			);
+			name = Utilites;
+			sourceTree = "<group>";
+		};
+		88AC07422933E21F00FFAF97 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				88AC073E2933E1A000FFAF97 /* PaletteGenerator.swift */,
+				88AC073C2933E17E00FFAF97 /* GenerateColors.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		88AC07432933E22A00FFAF97 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				88AC07382933CFDB00FFAF97 /* Colors.swift */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
 		88C57398293263A30089A095 = {
 			isa = PBXGroup;
 			children = (
@@ -78,6 +118,8 @@
 				88C573BA293265F70089A095 /* EntryPoint.swift */,
 				88C573B9293265AD0089A095 /* Lesson1 */,
 				88AC07302933BFDB00FFAF97 /* Lesson2 */,
+				88AC07352933CEB600FFAF97 /* Utilites */,
+				88AC07432933E22A00FFAF97 /* Data */,
 				88C573B8293265980089A095 /* Support */,
 			);
 			path = MetalLearning;
@@ -177,14 +219,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88AC07412933E20300FFAF97 /* String+Case.swift in Sources */,
 				88C573A9293263A30089A095 /* Lesson_1_VC.swift in Sources */,
+				88AC07392933CFDB00FFAF97 /* Colors.swift in Sources */,
 				88C573A5293263A30089A095 /* AppDelegate.swift in Sources */,
 				88C573A7293263A30089A095 /* SceneDelegate.swift in Sources */,
+				88AC073D2933E17E00FFAF97 /* GenerateColors.swift in Sources */,
 				88AC07342933C06000FFAF97 /* Add.metal in Sources */,
+				88AC073B2933E14100FFAF97 /* UIColor+Hex.swift in Sources */,
 				88C573C22932952A0089A095 /* ColoredShaders.metal in Sources */,
 				88AC07322933BFEE00FFAF97 /* Lesson_2_VC.swift in Sources */,
 				88C573BB293265F70089A095 /* EntryPoint.swift in Sources */,
+				88AC07372933CEC700FFAF97 /* UIColor+Metal.swift in Sources */,
 				88C573BD29327E960089A095 /* Shaders.metal in Sources */,
+				88AC073F2933E1A000FFAF97 /* PaletteGenerator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
