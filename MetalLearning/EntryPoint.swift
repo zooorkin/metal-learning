@@ -15,12 +15,16 @@ class EntryPoint {
     private init() { }
     
     func entryPoint() -> UIViewController {
-        createLesson1()
+        createLesson2()
     }
     
     // MARK: - Lessons
     
     private func createLesson1() -> UIViewController {
         Lesson_1_VC()
+    }
+    
+    private func createLesson2() -> UIViewController {
+        Lesson_2_VC()
     }
 }
