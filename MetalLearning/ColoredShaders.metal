@@ -31,12 +31,17 @@ struct RasterizerData
 // А во втором – буфер, переданный под индексом 0
 // (В определении шейдера параметры можно поменять местами)
 vertex RasterizerData vertex_shader(uint vertexID [[vertex_id]],
-                                    constant VertexInput *vertices [[buffer(0)]])
+                                    constant VertexInput *vertices [[buffer(0)]],
+                                    constant vector_uint2 *viewportSizePointer [[buffer(1)]])
 {
     VertexInput current_vertex = vertices[vertexID];
    
     RasterizerData out;
-    out.position = float4(current_vertex.position, 0, 1);
+
+    // Перевод из координат экрана в коордианты View Port через векторные операции (поэлементные)
+    vector_float2 position = current_vertex.position / (float2)*viewportSizePointer * 2;
+    out.position = float4(position, 0, 1);
+
     // Передача входного цвета напрямую растеризатору
     out.color = current_vertex.color;
 

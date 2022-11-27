@@ -25,13 +25,16 @@ class Lesson_1_VC: UIViewController {
     var pipelineState: MTLRenderPipelineState!
     
     /// Массив с вершинами прямоугольника (хранение вершин для CPU)
-    let vertexData: [VertexInput] = [VertexInput(position: [-1, -1], color: [1, 1, 1, 1]),
-                                     VertexInput(position: [1, -1], color: [1, 0, 0, 1]),
-                                     VertexInput(position: [-1, 1], color: [0, 0, 1, 1]),
-                                     VertexInput(position: [1, 1], color: [0, 1, 0, 1])]
+    let vertexData: [VertexInput] = [VertexInput(position: [-1024, -1024], color: [1, 1, 1, 1]),
+                                     VertexInput(position: [1024, -1024], color: [1, 0, 0, 1]),
+                                     VertexInput(position: [-1024, 1024], color: [0, 0, 1, 1]),
+                                     VertexInput(position: [1024, 1024], color: [0, 1, 0, 1])]
     
     /// Буфер с вершинами (хранение вершин для GPU)
     var vertexBuffer: MTLBuffer!
+    
+    /// Размер ViewPort'а
+    var viewportSize: vector_uint2 = vector_uint2()
 
     /// Вспомогательный класс из MetalKit. Упрощает интеграцию CAMetalLayer в UIKit
     /// Можно и без него обойтись, но тогда нужно будет больше кода
@@ -101,6 +104,12 @@ extension Lesson_1_VC: MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
         // Логи об изменении размера View
         print("mtkView drawableSizeWillChange = \(size)")
+
+        // Количество пикселей с учётом текущего количества пикселей на point
+        let scale = view.contentScaleFactor
+        viewportSize = vector_uint2(
+            UInt32(scale * size.width),
+            UInt32(scale * size.height))
     }
     
     func draw(in view: MTKView) {
@@ -127,13 +136,15 @@ extension Lesson_1_VC: MTKViewDelegate {
         // Команды для GPU создаются не нарямую, а через объекты Command Encoder
         let renderCommandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
         // Установка области для отрисовки
-        renderCommandEncoder.setViewport(
-            MTLViewport(originX: 0, originY: 0, width: 512, height: 512, znear: 0, zfar: 1)
-        )
+        // renderCommandEncoder.setViewport(
+        //     MTLViewport(originX: 0, originY: 0, width: 512, height: 512, znear: 0, zfar: 1)
+        // )
         // Пайплайн, на котором будут обрабатываться команды
         renderCommandEncoder.setRenderPipelineState(pipelineState)
         // Данные которые будет обрабатываться
         renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        // Размер View Port
+        renderCommandEncoder.setVertexBytes(&viewportSize, length: MemoryLayout<vector_uint2>.size, index: 1)
         // Метод (здесь, рисование треугольника)
         renderCommandEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: vertexData.count)
         // Устанавливает, что генерация всех команд в буфер через этот Encoder завершена
