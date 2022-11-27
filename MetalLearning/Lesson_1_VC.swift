@@ -126,6 +126,10 @@ extension Lesson_1_VC: MTKViewDelegate {
 
         // Команды для GPU создаются не нарямую, а через объекты Command Encoder
         let renderCommandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
+        // Установка области для отрисовки
+        renderCommandEncoder.setViewport(
+            MTLViewport(originX: 0, originY: 0, width: 512, height: 512, znear: 0, zfar: 1)
+        )
         // Пайплайн, на котором будут обрабатываться команды
         renderCommandEncoder.setRenderPipelineState(pipelineState)
         // Данные которые будет обрабатываться
